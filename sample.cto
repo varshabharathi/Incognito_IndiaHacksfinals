@@ -1,0 +1,113 @@
+/**
+ * This is the model file for the product - Trade Finance on Blockchain
+ * The participants of the network namely Exporter, Importer, Advising bank, Nominated bank and Issuing Bank are defined here
+ * Letter of Credit is the Asset in this case and this includes the status of the process
+ */
+namespace org.acme.mynetwork
+
+/**state of process*/
+enum IssuebyIB {
+  o Pending
+  o Done
+}
+enum ApprovalbyAB {
+  o Pending
+  o Done
+}
+enum Sellerupload {
+  o Pending
+  o Done
+}
+enum ComplibyNB {
+  o Pending
+  o Done
+}
+enum ComplibyIB {
+  o Pending
+  o Done
+}
+enum DoctoBuyer {
+  o Pending
+  o Done
+}
+enum SellerDocupNotification {
+  o Yet_to_be_notified 
+  o Notified_to_upload
+}
+
+/**Letter of Credit - asset definition */
+asset LOC identified by LOCId {
+  o String LOCId
+  o IssuebyIB iibtype
+  o ApprovalbyAB aabtype
+  o SellerDocupNotification selnottype
+  o Sellerupload edutype
+  o ComplibyNB ccnbtype
+  o ComplibyIB ccibtype
+  o DoctoBuyer dtbtype
+  o Double amount
+  -->IssuingBank ib
+  -->NominatedBank nb
+  -->AdvisingBank ab
+  -->Seller seller
+  -->Buyer buyer
+}
+
+
+/**Participants definitions */
+abstract participant member identified by email {
+  o String email
+  o String name
+  o Double balance
+}
+participant IssuingBank extends member {
+} 
+participant NominatedBank extends member {
+}
+participant AdvisingBank extends member {
+}
+participant Buyer extends member {
+}
+participant Seller extends member {
+}
+ 
+/**Processes definitions */
+/**Issuing of LOC*/
+transaction IBissue{
+  o String txId
+  -->LOC loc
+}
+
+/**Advising Bank Approval */
+transaction ABapproval{
+  o String txId
+  -->LOC loc
+}
+
+/**Seller Document Upload */
+transaction Sellerdocup{
+  o String txId
+  -->LOC loc
+}
+
+/**Compliance Check by Nominated Bank*/
+transaction NBcompli{
+  o String txId
+  -->LOC loc
+  -->IssuingBank ib
+  -->Seller seller   
+}
+
+/**Compliance Check by Issuing Bank*/
+transaction IBcompli{
+  o String txId
+  -->LOC loc
+}
+
+/**Document received by buyer*/
+transaction Buyerdocrec{
+  o String txId
+  -->IssuingBank ib
+  -->Buyer buyer
+  -->LOC loc
+}
