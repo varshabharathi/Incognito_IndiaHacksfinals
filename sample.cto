@@ -1,5 +1,5 @@
 /**
- * This is the model file for the product - Trade Finance on Blockchain
+ * This is the model file for the product Trade Finance on Blockchain
  * The participants of the network namely Exporter, Importer, Advising bank, Nominated bank and Issuing Bank are defined here
  * Letter of Credit is the Asset in this case and this includes the status of the process
  */
